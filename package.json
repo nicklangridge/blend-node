@@ -1,0 +1,13 @@
+{
+  "name"         : "the-blend",
+  "version"      : "0.0.1",
+  "description"  : "TheBlend",
+  "main"         : "app.js",
+  "author"       : "Nick",
+  "dependencies" : {
+    "request"    : "latest",
+    "cheerio"    : "latest",
+    "feed-read"  : "latest",
+    "trim"       : "latest"
+  }
+}
