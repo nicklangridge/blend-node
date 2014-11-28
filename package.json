@@ -8,6 +8,7 @@
     "request"    : "latest",
     "cheerio"    : "latest",
     "feed-read"  : "latest",
-    "trim"       : "latest"
+    "trim"       : "latest",
+    "lodash"     : "latest"
   }
 }
