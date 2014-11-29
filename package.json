@@ -9,6 +9,8 @@
     "cheerio"    : "latest",
     "feed-read"  : "latest",
     "trim"       : "latest",
-    "lodash"     : "latest"
+    "lodash"     : "latest",
+
+    "mocha"      : "latest"
   }
 }

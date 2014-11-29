@@ -1,9 +1,5 @@
 var feeds = require('./lib/feeds.js');
 
-feeds.tape_fear(function(reviews){
-  console.log(reviews);
-});
-
-feeds.pitchfork(function(reviews){
+feeds.hippopotamusic(function(reviews){
   console.log(reviews);
 });
