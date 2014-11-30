@@ -1,16 +1,18 @@
 {
-  "name"         : "the-blend",
-  "version"      : "0.0.1",
-  "description"  : "TheBlend",
-  "main"         : "app.js",
-  "author"       : "Nick",
-  "dependencies" : {
-    "request"    : "latest",
-    "cheerio"    : "latest",
-    "feed-read"  : "latest",
-    "trim"       : "latest",
-    "lodash"     : "latest",
-
-    "mocha"      : "latest"
+  "name": "the-blend",
+  "version": "0.0.1",
+  "description": "TheBlend",
+  "main": "app.js",
+  "author": "Nick",
+  "dependencies": {
+    "bookshelf": "^0.7.9",
+    "cheerio": "latest",
+    "feed-read": "latest",
+    "knex": "^0.7.3",
+    "lodash": "latest",
+    "mocha": "latest",
+    "mysql": "^2.5.3",
+    "request": "latest",
+    "trim": "latest"
   }
 }
