@@ -10,7 +10,7 @@ var data = [
     public: 1 
   },
   { 
-    feed_id: '2',
+    feed_id: 2,
     name: 'Clash',
     method: 'clash',
     homepage_url: 'http://www.clashmusic.com',
@@ -50,12 +50,11 @@ function truncate(){
 
 function insert(){
   console.log('Insert...');
-  db.knex.insert(data);
+  return db.knex('feed').insert(data);
 }
 
-function done(){
-  console.log('Done');
-  process.exit();
-}
-
-truncate().then(insert).then(done);
+truncate()
+  .then(insert)
+  .then(db.disconnect)
+  .then(function(){ console.log('Done') })
+  .catch(function(e){ console.log(e) });
