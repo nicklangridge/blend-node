@@ -6,6 +6,7 @@
   "author": "Nick",
   "dependencies": {
     "bookshelf": "^0.7.9",
+    "chai": "^1.10.0",
     "cheerio": "latest",
     "feed-read": "latest",
     "knex": "^0.7.3",
