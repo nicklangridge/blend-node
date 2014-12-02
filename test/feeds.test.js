@@ -14,16 +14,17 @@ describe("Feeds", function(){
   it('is an object', function(){
     assert.isObject(feeds);
   });
-
-  var methods = Object.getOwnPropertyNames(feeds).sort();
-  it('has methods', function(){
-    assert.ok(methods.length > 0);
-  });
   
-  methods.forEach(function(method){
-    describe(method,function(){
+  var list = feeds.list();
+
+  it('has a list of feeds', function(){
+    assert.isArray(list) && assert.ok(list.length > 0);
+  });
+
+  list.forEach(function(feedName) {
+    describe(feedName, function(){
       it('fetches valid reviews', function(done){
-        feeds[method](function(reviews){
+        feeds.fetch(feedName).then(function(reviews){
           if (!reviews.length > 0) throw(new Error('no reviews'));
           reviews.forEach(function(review){
             if (!isValidReview(review)) throw(new Error('invalid review'));

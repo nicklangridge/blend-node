@@ -5,13 +5,14 @@
   "main": "app.js",
   "author": "Nick",
   "dependencies": {
+    "bluebird": "^2.3.11",
     "bookshelf": "^0.7.9",
     "chai": "^1.10.0",
     "cheerio": "latest",
     "feed-read": "latest",
     "knex": "^0.7.3",
     "lodash": "latest",
-    "mocha": "latest",
+    "mocha": "^2.0.1",
     "mysql": "^2.5.3",
     "request": "latest",
     "trim": "latest"
