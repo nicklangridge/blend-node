@@ -55,6 +55,6 @@ function insert(){
 
 truncate()
   .then(insert)
-  .then(db.disconnect)
+  .then(db.done)
   .then(function(){ console.log('Done') })
   .catch(function(e){ console.log(e) });
