@@ -43,18 +43,12 @@ var data = [
   } 
 ];
 
-function truncate(){
-  console.log('Truncate...');
-  return db.knex('feed').truncate();
-}
+console.log('Truncate...');
 
-function insert(){
-  console.log('Insert...');
-  return db.knex('feed').insert(data);
-}
-
-truncate()
-  .then(insert)
+db.knex('feed').truncate()
+  .then(function insert(){
+    console.log('Insert...');
+    return db.knex('feed').insert(data);
+  })
   .then(db.done)
-  .then(function(){ console.log('Done') })
   .catch(function(e){ console.log(e) });

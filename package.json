@@ -9,6 +9,7 @@
     "bookshelf": "^0.7.9",
     "chai": "^1.10.0",
     "cheerio": "latest",
+    "diacritics": "^1.2.1",
     "feed-read": "latest",
     "knex": "^0.7.3",
     "lodash": "latest",
