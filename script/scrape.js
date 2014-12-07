@@ -13,4 +13,4 @@ db.getActiveFeeds()
       });
   })
   .then(db.done)
-  .catch(function(e){ console.log(e) });
+  .catch(db.error);

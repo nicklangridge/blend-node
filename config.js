@@ -1,4 +1,4 @@
-var config = module.exports = {};
+var config = {};
 
 config.mysql = {
   host     : '127.0.0.1',
@@ -7,4 +7,11 @@ config.mysql = {
   database : 'blend',
   charset  : 'utf8'
 };
+
+config.sql_files = {
+  tables : __dirname + '/sql/tables.sql',
+  feeds  : __dirname + '/sql/feeds.sql'
+}
+
+module.exports = config;
 
