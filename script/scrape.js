@@ -14,3 +14,13 @@ db.getActiveFeeds()
   })
   .then(db.done)
   .catch(db.error);
+
+
+db.Feed.getActive().then(function(feeds){
+  return Promise.all(feeds.toJSON().map(function(feed){
+    return feeds.fetch(feed.method).each(function(review){
+        console.log(feed.method, feed.feed_id, review);
+        return db.Review.add(feed.feed_id, r.artist, r.album, r.url, r.content);
+      });
+  });
+})
