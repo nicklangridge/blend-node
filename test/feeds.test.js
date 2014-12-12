@@ -1,5 +1,5 @@
 var assert = require('chai').assert
-var feeds  = require("../lib/feeds.js");
+var feeds  = require("../lib/feeds");
 
 function isValidReview(r) {
   return ( r.artist  && r.artist.length  > 0 &&

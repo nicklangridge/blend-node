@@ -7,16 +7,17 @@
   "dependencies": {
     "bluebird": "^2.3.11",
     "bookshelf": "^0.7.9",
-    "chai": "^1.10.0",
-    "cheerio": "latest",
+    "cheerio": "^0.18.0",
     "diacritics": "^1.2.1",
-    "feed-read": "latest",
+    "feed-read": "^0.0.1",
     "knex": "^0.7.3",
-    "lodash": "latest",
-    "mocha": "^2.0.1",
+    "lodash": "2.4.1",
     "mysql": "^2.5.3",
-    "node-mysql": "^0.4.1",
-    "request": "latest",
-    "trim": "latest"
+    "request": "^2.49.0",
+    "trim": "^0.0.1"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1",
   }
 }
