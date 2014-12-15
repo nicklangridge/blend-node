@@ -1,4 +1,4 @@
-var db = require("../lib/db.js");
+var db = require("../lib/db");
 
 db.getActiveFeeds()
   .then(function(x){ 
