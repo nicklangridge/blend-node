@@ -1,19 +1,11 @@
-var assert = require('chai').assert
+var test  = require('tape');
  
-describe("Utils", function(){
- 
-  describe('createSlug', function(){
-    var createSlug = require("../lib/utils/createSlug.js");
-    var source     = ' I (l0vè) tests  -- Yåy!!  ';
-    var slug       = 'i-l0ve-tests-yay';
-
-    it('creates a valid slug', function(){
-      assert.equal(createSlug(source), slug);
-    });
-    
-    it('does not modify a valid slug', function(){
-      assert.equal(createSlug(slug), slug);
-    });
-  });
-
+test('createSlug', function(t){
+  var createSlug = require("../lib/utils/createSlug.js");
+  var source     = ' I (l0vè) tests  -- Yåy!!  ';
+  var slug       = 'i-l0ve-tests-yay';
+  
+  t.plan(2);
+  t.equal(createSlug(source), slug, 'creates a valid slug');
+  t.equal(createSlug(slug), slug,  'does not modify a valid slug');
 });

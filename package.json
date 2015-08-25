@@ -17,7 +17,6 @@
     "trim": "^0.0.1"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "mocha": "^2.0.1",
+    "tape": "latest"
   }
 }

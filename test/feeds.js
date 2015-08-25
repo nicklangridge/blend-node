@@ -1,5 +1,6 @@
-var assert = require('chai').assert
-var feeds  = require("../lib/feeds");
+var test  = require('tape');
+var _     = require('lodash');
+var feeds = require("../lib/feeds");
 
 function isValidReview(r) {
   return ( r.artist  && r.artist.length  > 0 &&
@@ -8,31 +9,24 @@ function isValidReview(r) {
            r.url     && r.url.length     > 0 ); 
 }
  
-describe("Feeds", function(){
-  this.timeout(30000);
+test("Feeds", function(t){
 
-  it('is an object', function(){
-    assert.isObject(feeds);
-  });
-  
+  t.equal(typeof feeds, 'object', 'is an object');
+
   var list = feeds.list();
-
-  it('has a list of feeds', function(){
-    assert.isArray(list) && assert.ok(list.length > 0);
-  });
+  t.equal(typeof list, 'object', 'has list object');
+  t.ok(list.length > 0, 'list is populated');
 
   list.forEach(function(feedName) {
-    describe(feedName, function(){
-      it('fetches valid reviews', function(done){
-        feeds.fetch(feedName).then(function(reviews){
-          if (!reviews.length > 0) throw(new Error('no reviews'));
-          reviews.forEach(function(review){
-            if (!isValidReview(review)) throw(new Error('invalid review'));
-          });
-          done();
-        });
+    t.test(feedName, function(st){
+      st.plan(2);
+      feeds.fetch(feedName).then(function(reviews){
+        st.ok(reviews.length > 0, 'fetches reviews');
+        var valid = _.filter(reviews, function(review) { return isValidReview(review) });
+        st.equal(valid.length, reviews.length, 'all reviews are valid');
       });
     });
   });
 
+  t.end();
 });
