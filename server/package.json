@@ -10,8 +10,8 @@
     "cheerio": "^0.18.0",
     "diacritics": "^1.2.1",
     "feed-read": "^0.0.1",
-    "knex": "^0.7.3",
-    "lodash": "2.4.1",
+    "knex": "^0.7.6",
+    "lodash": "^2.4.1",
     "mysql": "^2.5.3",
     "request": "^2.49.0",
     "trim": "^0.0.1"
