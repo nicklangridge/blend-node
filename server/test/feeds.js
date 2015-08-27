@@ -1,6 +1,6 @@
 var test  = require('tape');
 var _     = require('lodash');
-var feeds = require("../lib/feeds");
+var feeds = require("../feeds");
 
 function isValidReview(r) {
   return ( r.artist  && r.artist.length  > 0 &&

@@ -1,7 +1,7 @@
 'use strict';
 
 exports.up = function(knex, Promise) {
-  return Promise.all([
+  return Promise.join(
     
     knex.schema.createTable('album', function(t) {
       t.increments('album_id').primary();
@@ -59,7 +59,7 @@ exports.up = function(knex, Promise) {
       t.boolean('public').notNull();
     })
 
-  ]);
+  );
 };
 
 exports.down = function(knex, Promise) {
