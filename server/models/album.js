@@ -1,8 +1,8 @@
 var Promise    = require('bluebird');
-var base       = require('./base'); 
-var createSlug = require('../utils/createSlug.js'); 
+var bookshelf  = require('../db/bookshelf'); 
+var createSlug = require('../utils/createSlug'); 
 
-var Album = base.Model.extend({
+var Album = bookshelf.Model.extend({
     
   tableName: 'album',
   
@@ -19,7 +19,7 @@ var Album = base.Model.extend({
 });
 
 module.exports = {
-  Album: base.model('Album', Album)
+  Album: bookshelf.model('Album', Album)
 };
 
 

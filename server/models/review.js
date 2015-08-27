@@ -1,7 +1,7 @@
 var Promise    = require('bluebird');
-var base       = require('./base'); 
+var bookshelf  = require('../db/bookshelf');
 
-var Review = base.Model.extend({
+var Review = bookshelf.Model.extend({
     
   tableName: 'review',
   
@@ -17,7 +17,7 @@ var Review = base.Model.extend({
 });
 
 module.exports = {
-  Review: base.model('Review', Review)
+  Review: bookshelf.model('Review', Review)
 };
 
 

@@ -1,6 +1,6 @@
-var base = require('./base'); 
+var bookshelf  = require('../db/bookshelf');
 
-var Feed = base.Model.extend({
+var Feed = bookshelf.Model.extend({
     
   tableName: 'feed'
 
@@ -13,7 +13,7 @@ var Feed = base.Model.extend({
 });
 
 module.exports = {
-  Feed: base.model('Feed', Feed)
+  Feed: bookshelf.model('Feed', Feed)
 };
 
 
