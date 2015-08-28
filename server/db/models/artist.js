@@ -1,20 +1,9 @@
-var Promise    = require('bluebird');
-var bookshelf  = require('../db/bookshelf');
-var createSlug = require('../utils/createSlug'); 
+var bookshelf  = require('../bookshelf');
 
 var Artist = bookshelf.Model.extend({
     
   tableName: 'artist',
-  
-}, {
-  
-  findOrCreate: function(data) {
-    data.slug = createSlug(data.name);
-    var model = this.forge(data);
-    return model.fetch().then(function(fetched){
-      return fetched ? Promise.resolve(fetched) : model.save();
-    });
-  }
+  hasTimestamps: true,
 
 });
 

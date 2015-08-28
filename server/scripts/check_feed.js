@@ -1,4 +1,4 @@
-var feeds  = require("../lib/feeds");
+var feeds  = require("../feeds");
 
 var feedName = process.argv[2] || 'tapefear';
 

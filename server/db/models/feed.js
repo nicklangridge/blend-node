@@ -1,15 +1,9 @@
-var bookshelf  = require('../db/bookshelf');
+var bookshelf = require('../bookshelf');
 
 var Feed = bookshelf.Model.extend({
-    
+  
   tableName: 'feed'
-
-}, {
-
-  getActive: function() {
-    return Feed.forge({active: 1}).fetchAll();
-  }
-
+  
 });
 
 module.exports = {

@@ -1,7 +1,7 @@
 'use strict';
 
 function feed(v) {
-  return { feed_id:v[0], name:v[1], homepage_url:v[2], slug:v[3], active:1, public:1 }
+  return { id:v[0], name:v[1], homepage_url:v[2], slug:v[3], active:1, public:1 }
 }
 
 exports.seed = function(knex, Promise) {
