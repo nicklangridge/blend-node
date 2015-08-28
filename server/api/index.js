@@ -1,3 +1,6 @@
+// api
+// all methods return plain old JS objects - no models returned here
+
 var _       = require('lodash');
 var Promise = require('bluebird');
 var db      = require('../db');
@@ -5,14 +8,14 @@ var feeds   = require('../feeds');
 
 var api = {
   
-  getFeed: function(id) {
-    return db.Feed.findById(id).then(function(model) {
+  getFeed: function(feedId) {
+    return db.Feed.findById(feedId).then(function(model) {
       return Promise.resolve(model.toJSON());
     });
   },
   
-  getFeedReviews: function(id) {
-    return db.Feed.findById(id).then(function(model) {
+  getFeedReviews: function(feedId) {
+    return db.Feed.findById(feedId).then(function(model) {
       return Promise.resolve(feeds.fetch(model.get('slug')));
     });
   },
@@ -23,12 +26,12 @@ var api = {
     });
   },
   
-  importFeed: function(id) {
-    return db.Feed.findById(id).then(function(feed) {
-      return feed.fetchReviews().then(function(review){
+  importFeed: function(feedId) {
+    return api.getFeedReviews(feedId).then(function(reviews){
+      return Promise.map(reviews, function(review){
         return db.findOrCreateArtist(review.artist).then(function(artist){
           return db.findOrCreateAlbum(review.album, artist.id).then(function(album){
-            return db.findOrCreateAlbum(review.url, review.content, album.id, feed.id).then(function(){
+            return db.findOrCreateAlbum(review.url, review.content, album.id, feedId).then(function(){
               return Promise.resolve(true);
             })
           });

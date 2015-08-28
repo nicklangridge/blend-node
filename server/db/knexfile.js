@@ -1,4 +1,4 @@
-// Update with your config settings.
+// knex connection details
 
 module.exports = {
 

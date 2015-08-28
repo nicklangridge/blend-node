@@ -1,3 +1,5 @@
+// bookshelf base file - all models use this
+
 var _          = require('lodash');
 var knex       = require('./knex');
 var bookshelf  = require('bookshelf')(knex);
@@ -8,12 +10,16 @@ bookshelf.plugin('registry');
 bookshelf.Model = bookshelf.Model.extend({
   
   initialize: function() {
+    // default event handlers
     this.on('creating', this.creating, this);
   }
   
 }, {  
   
+  // class-level helper methods for all models
+  
   creating: function() {
+    // create slug on insert (where applicable)
     if (this.has('name')) this.setSlug();
   },
   

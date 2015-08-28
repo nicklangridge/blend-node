@@ -1,5 +1,9 @@
+// this is the interface to the database 
+
 var _    = require('lodash');
 var knex = require('./knex');
+
+// set up the models
 
 var db = _.assign({}, 
   require('./models/album.js'),
@@ -7,6 +11,8 @@ var db = _.assign({},
   require('./models/feed.js'),
   require('./models/review.js')
 );
+
+// add some helper methods
 
 db = _.extend(db, {
   
@@ -23,7 +29,7 @@ db = _.extend(db, {
   },
   
   done: function() {
-    return knex.destroy();
+    return knex.destroy(); // exit pooling and disconnect
   }
   
 });

@@ -1,3 +1,5 @@
+// this is the interface to the review feeds on the web
+
 var _ = require('lodash');
 
 module.exports = {
