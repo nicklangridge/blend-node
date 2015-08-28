@@ -1,4 +1,4 @@
-// bookshelf base file - all models use this
+// bookshelf base file - all models are based off this
 
 var _          = require('lodash');
 var knex       = require('./knex');

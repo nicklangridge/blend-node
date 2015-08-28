@@ -29,7 +29,7 @@ db = _.extend(db, {
   },
   
   done: function() {
-    return knex.destroy(); // exit pooling and disconnect
+    return knex.destroy(); // shutdown knex pooling and disconnect
   }
   
 });
