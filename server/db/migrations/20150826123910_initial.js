@@ -11,6 +11,7 @@ exports.up = function(knex, Promise) {
       t.string('spotify_url').notNull();
       t.string('spotfiy_cover_url').nullable();
       t.dateTime('created_at').notNull();
+      t.dateTime('updated_at').notNull();
       t.dateTime('crawled_at').notNull();
     }),
     
@@ -20,6 +21,7 @@ exports.up = function(knex, Promise) {
       t.string('region', 9).notNull();
       t.enu('status', ['active', 'inactive']).notNull().defaultTo('active');
       t.dateTime('created_at').notNull();
+      t.dateTime('updated_at').notNull();
       t.unique(['album_id', 'region']);
     }),
     
@@ -30,6 +32,7 @@ exports.up = function(knex, Promise) {
       t.string('url').notNull();
       t.string('text').notNull();
       t.dateTime('created_at').notNull();
+      t.dateTime('updated_at').notNull();
       t.dateTime('active').notNull();
     }),    
     
@@ -49,6 +52,7 @@ exports.up = function(knex, Promise) {
       t.string('bio_site', 40).notNull();
       t.string('spotify_url').nullable();
       t.dateTime('created_at').notNull();
+      t.dateTime('updated_at').notNull();
       t.dateTime('crawled').notNull();
     }),
 

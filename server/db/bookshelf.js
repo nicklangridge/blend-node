@@ -1,6 +1,8 @@
 // bookshelf base file - all models are based off this
 
 var _          = require('lodash');
+var Promise    = require('bluebird');
+//var moment     = require('moment');
 var knex       = require('./knex');
 var bookshelf  = require('bookshelf')(knex);
 var createSlug = require('../utils/createSlug');
@@ -16,12 +18,7 @@ bookshelf.Model = bookshelf.Model.extend({
   
 }, {  
   
-  // class-level helper methods for all models
-  
-  creating: function() {
-    // create slug on insert (where applicable)
-    if (this.has('name')) this.setSlug();
-  },
+  // class helper methods
   
   findById: function(id) {
     return this.forge({id: id}).fetch({require: true});
@@ -29,19 +26,31 @@ bookshelf.Model = bookshelf.Model.extend({
   
   findAll: function(data) {
     return this.forge(data).fetchAll();
-  },
-  
-  findOrCreate: function(options) {
-    var cloned = this.clone();
-    return this.fetch(_.extend(options, {require: true})).then(null, function() {
-       return cloned.save();
-    });
-  },
-
-  setSlug: function() {
-    this.set('slug', createSlug(this.get('name')));
   }
 
 });
+
+// instance helper methods
+
+bookshelf.Model.prototype = _.extend(bookshelf.Model.prototype, {
+
+  creating: function() {
+    // create slug on insert (where applicable)
+    if (this.has('name')) this.setSlug();
+  },
+
+  findOrCreate: function(options) {
+    var cloned = this.clone();
+    return this.fetch(_.extend(options)).then(function(found){
+      return found ? Promise.resolve(found) : cloned.save();
+    });
+  },
+
+  setSlug: function(options) {
+    this.set('slug', createSlug(this.get('name')));
+  }
+  
+});
+
 
 module.exports = bookshelf;

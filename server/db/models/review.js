@@ -3,7 +3,7 @@ var bookshelf  = require('../bookshelf');
 var Review = bookshelf.Model.extend({
     
   tableName: 'review',
-  hasTimestamps: true,
+  hasTimestamps: true
   
 });
 

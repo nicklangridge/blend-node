@@ -25,7 +25,7 @@ db = _.extend(db, {
   },
   
   findOrCreateReview: function(url, text, album_id, feed_id) {
-    return db.Album.forge({url: url, text: text, album_id: album_id, feed_id: feed_id}).findOrCreate();
+    return db.Review.forge({url: url, text: text, album_id: album_id, feed_id: feed_id}).findOrCreate();
   },
   
   done: function() {

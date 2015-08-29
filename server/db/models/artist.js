@@ -3,8 +3,8 @@ var bookshelf  = require('../bookshelf');
 var Artist = bookshelf.Model.extend({
     
   tableName: 'artist',
-  hasTimestamps: true,
-
+  hasTimestamps: true
+  
 });
 
 module.exports = {
