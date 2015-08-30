@@ -22,8 +22,16 @@ var api = {
   },
   
   getActiveFeeds: function() {
+    return db.Feed.findAll({active: 1}).then(function(feeds) {
+      return Promise.resolve(feeds.toJSON());
+    });
+  }, 
+  
+  importAllFeeds: function(feedId) {
     return db.Feed.findAll({active: 1}).then(function(collection) {
-      return Promise.resolve(collection.toJSON());
+      return Promise.each(collection.models, function(feed) {
+        return api.importFeed(feed.id);
+      });
     });
   },
   
@@ -33,7 +41,7 @@ var api = {
       
       log.info('Importing reviews from feed', feed.get('slug'));
   
-      var created = {
+      var counts = {
         artists:0, 
         albums:0, 
         reviews: 0
@@ -43,21 +51,21 @@ var api = {
 
         log.info('Found %s reviews', reviews.length);
 
-        return Promise.map(reviews, function(data){
+        return Promise.each(reviews, function(data){
           return db.findOrCreateArtist(data.artist).then(function(artist){  
             if (artist._isNew) {
               log.info('+++ Added artist', artist.get('slug'));
-              created.artists++;
+              counts.artists++;
             }
             return db.findOrCreateAlbum(data.album, artist.id).then(function(album){
               if (album._isNew) {
                 log.info('+++ Added album %s by %s', album.get('slug'), artist.get('slug'));
-                created.albums++;
+                counts.albums++;
               }
               return db.findOrCreateReview(data.url, data.content, album.id, feedId).then(function(review){
                 if (review._isNew) {
                   log.info('+++ Added review %s of %s by %s', review.get('url'), album.get('slug'), artist.get('slug') );  
-                  created.reviews++;
+                  counts.reviews++;
                 }
               });
             });
@@ -69,11 +77,11 @@ var api = {
         log.info(
           'Feed %s; created %s artists, %s albums, %s reviews', 
           feed.get('slug'), 
-          created.artists, 
-          created.albums,
-          created.reviews
+          counts.artists, 
+          counts.albums,
+          counts.reviews
         );
-      
+        
       });
     });
   },
