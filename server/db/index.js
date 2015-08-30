@@ -25,7 +25,13 @@ db = _.extend(db, {
   },
   
   findOrCreateReview: function(url, text, album_id, feed_id) {
-    return db.Review.forge({url: url, text: text, album_id: album_id, feed_id: feed_id}).findOrCreate();
+    return db.Review.forge({album_id: album_id, feed_id: feed_id})
+      .findOrCreate()
+      .then(function(review){
+        return review.set('url', url)
+                     .set('text', text)
+                     .save(); 
+      });    
   },
   
   done: function() {

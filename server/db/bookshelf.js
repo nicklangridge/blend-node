@@ -41,12 +41,17 @@ bookshelf.Model.prototype = _.extend(bookshelf.Model.prototype, {
 
   findOrCreate: function(options) {
     var cloned = this.clone();
-    return this.fetch(_.extend(options)).then(function(found){
-      return found ? Promise.resolve(found) : cloned.save();
+    return this.fetch(options).then(function(found){
+      if (found) { 
+        return Promise.resolve(found);
+      } else {
+        cloned._isNew = true;
+        return cloned.save();
+      }
     });
   },
 
-  setSlug: function(options) {
+  setSlug: function() {
     this.set('slug', createSlug(this.get('name')));
   }
   

@@ -28,22 +28,52 @@ var api = {
   },
   
   importFeed: function(feedId) {
-    return api.getFeedReviews(feedId).then(function(reviews){
-      return Promise.map(reviews, function(review){
+    
+    return db.Feed.findById(feedId).then(function(feed) {
+      
+      log.info('Importing reviews from feed', feed.get('slug'));
+  
+      var created = {
+        artists:0, 
+        albums:0, 
+        reviews: 0
+      };
+    
+      return api.getFeedReviews(feedId).then(function(reviews){
 
-        return db.findOrCreateArtist(review.artist).then(function(artist){
-          log.info('ARTIST', artist);
-          
-          return db.findOrCreateAlbum(review.album, artist.id).then(function(album){
-            log.info('ALBUM', album);
-          
-            return db.findOrCreateReview(review.url, review.content, album.id, feedId).then(function(){
-              log.info('REVIEW', review);
-              
-              return Promise.resolve(true);
-            })
+        log.info('Found %s reviews', reviews.length);
+
+        return Promise.map(reviews, function(data){
+          return db.findOrCreateArtist(data.artist).then(function(artist){  
+            if (artist._isNew) {
+              log.info('+++ Added artist', artist.get('slug'));
+              created.artists++;
+            }
+            return db.findOrCreateAlbum(data.album, artist.id).then(function(album){
+              if (album._isNew) {
+                log.info('+++ Added album %s by %s', album.get('slug'), artist.get('slug'));
+                created.albums++;
+              }
+              return db.findOrCreateReview(data.url, data.content, album.id, feedId).then(function(review){
+                if (review._isNew) {
+                  log.info('+++ Added review %s of %s by %s', review.get('url'), album.get('slug'), artist.get('slug') );  
+                  created.reviews++;
+                }
+              });
+            });
           });
+          
         });
+      }).then(function(){
+      
+        log.info(
+          'Feed %s; created %s artists, %s albums, %s reviews', 
+          feed.get('slug'), 
+          created.artists, 
+          created.albums,
+          created.reviews
+        );
+      
       });
     });
   },
