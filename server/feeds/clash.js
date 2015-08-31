@@ -1,3 +1,5 @@
+"use strict";
+
 var cheerio = require('cheerio');
 var feed    = require('./feed.js')('http://www.clashmusic.com/feed/reviews');
 

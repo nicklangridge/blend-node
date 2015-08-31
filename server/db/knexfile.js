@@ -1,5 +1,7 @@
 // knex connection details
 
+"use strict";
+
 module.exports = {
 
   development: {

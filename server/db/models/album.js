@@ -1,3 +1,5 @@
+"use strict";
+
 var bookshelf  = require('../bookshelf'); 
 
 var Album = bookshelf.Model.extend({

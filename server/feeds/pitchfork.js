@@ -1,3 +1,5 @@
+"use strict";
+
 var feed = require('./feed.js')('http://feeds2.feedburner.com/PitchforkAlbumReviews');
 
 feed.extractArtistAlbum = function(title) {

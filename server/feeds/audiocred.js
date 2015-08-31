@@ -1,3 +1,5 @@
+"use strict";
+
 var feed = require('./feed.js')('http://feeds.feedburner.com/Audiocred');
 
 feed.extractArtistAlbum = function(title) {

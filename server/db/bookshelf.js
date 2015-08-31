@@ -1,5 +1,6 @@
 // bookshelf base file - all models are based off this
 
+"use strict";
 var _          = require('lodash');
 var Promise    = require('bluebird');
 //var moment     = require('moment');

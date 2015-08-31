@@ -1,3 +1,5 @@
+"use strict";
+
 var test  = require('tape');
 var _     = require('lodash');
 var feeds = require("../feeds");

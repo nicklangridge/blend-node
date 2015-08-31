@@ -1,3 +1,5 @@
+"use strict";
+
 var bookshelf = require('../bookshelf');
 
 var Feed = bookshelf.Model.extend({

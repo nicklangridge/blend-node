@@ -1,5 +1,7 @@
 // general purpose buffer
 
+"use strict";
+
 var _ = require('lodash');
 
 function Buffer(){
@@ -12,7 +14,7 @@ Buffer.prototype.add = function(value){
 }
 
 Buffer.prototype.flush = function(func, thisObj){
-  _.each(this.storage, function(value){
+  this.storage.forEach(function(value){
     func.apply(thisObj, value);
   })
   return this;

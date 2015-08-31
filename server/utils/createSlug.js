@@ -1,5 +1,7 @@
 // creates a clean, url-safe, slug from a given string
 
+"use strict";
+
 var removeDiacritics = require('diacritics').remove;
 
 function createSlug(str) {

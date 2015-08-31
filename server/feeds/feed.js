@@ -1,6 +1,8 @@
 // feed base - all feeds are based off this
 // feed.fetch() must return an array of review objects with properties: artist, album, url, content
 
+"use strict";
+
 var _        = require('lodash');
 var trim     = require('trim');
 var Promise  = require('bluebird');

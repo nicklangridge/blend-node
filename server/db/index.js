@@ -1,5 +1,7 @@
 // this is the interface to the database 
 
+"use strict";
+
 var _    = require('lodash');
 var knex = require('./knex');
 

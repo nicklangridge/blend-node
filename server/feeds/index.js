@@ -1,5 +1,7 @@
 // this is the interface to the review feeds on the web
 
+"use strict";
+
 var _ = require('lodash');
 
 module.exports = {
