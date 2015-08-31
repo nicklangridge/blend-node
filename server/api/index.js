@@ -1,45 +1,55 @@
 // api
-// all methods return plain old JS objects - no models returned here
 
+"use strict";
 var _       = require('lodash');
 var Promise = require('bluebird');
 var db      = require('../db');
 var feeds   = require('../feeds');
-var log     = require('../utils/log');
+var log     = require('../utils/log')('../import.log');
 var Buffer  = require('../utils/buffer');
 
 var api = {
   
-  getFeedReviews: function(feedId) {
-    return db.Feed.findById(feedId).then(function(model) {
-      return Promise.resolve(feeds.fetch(model.get('slug')));
-    });
-  }, 
+  // import reviews from all feeds
   
-  importAllFeeds: function(feedId) {
+  importAllFeeds: function() {
+    
+    log.info('Starting import of all feeds');
+    
     return db.Feed.findAll({active: 1}).then(function(collection) {
       return Promise.map(collection.models, function(feed) {
         return api.importFeed(feed.id);
-      }).then(function(){
-        log.info('all imports done');
+      })
+      .then(function(result){
+        var totals = result.reduce(function(a, b){
+          return {
+            artists: a.artists + b.artists,
+            albums:  a.albums  + b.albums,
+            reviews: a.reviews + b.reviews
+          };
+        }); 
+        log.info(
+          'Finished import; created %s artists, %s albums, %s reviews', 
+          totals.artists, totals.albums, totals.reviews
+        );
       });
     });
   },
   
+  // import reviews from a given feed
+  
   importFeed: function(feedId) {
     
-    return db.Feed.findById(feedId).then(function(feed) {
-      var msgs = new Buffer();
-      
-      msgs.add(['Importing reviews from feed', feed.get('slug')]);
-  
-      var counts = {
-        artists: 0, 
-        albums: 0, 
-        reviews: 0
-      };
+    var counts   = { artists: 0, albums: 0, reviews: 0 };
     
-      return api.getFeedReviews(feedId).then(function(reviews){
+    return db.Feed.findById(feedId).then(function(feed) {
+
+      var feedName = feed.get('slug');      
+      var msgs     = new Buffer();
+      
+      msgs.add(['Importing reviews from feed', feedName]);
+  
+      return feeds.fetch(feedName).then(function(reviews){
 
         msgs.add(['Found %s reviews', reviews.length]);
 
@@ -61,24 +71,27 @@ var api = {
                 }
               });
             });
-          });
-          
+          });          
         });
-      }).then(function(){
+      })
+      .then(function(){
         
         msgs.add([
           'Feed %s; created %s artists, %s albums, %s reviews', 
-          feed.get('slug'), 
-          counts.artists, 
-          counts.albums,
-          counts.reviews
-        ]);
-        
-        msgs.flush(log.info);
-        
+          feedName, counts.artists, counts.albums, counts.reviews
+        ])
+        .flush(log.info);
+
       });
+    })
+    .then(function(){
+
+      return Promise.resolve(counts);    
+
     });
   },
+  
+  // disconnect
   
   done: function() {
     return db.done();

@@ -2,21 +2,26 @@
 
 var winston = require('winston');
 
-var logger = new (winston.Logger)({
-  transports: [
-    
-    new winston.transports.Console({
-      prettyPrint: true, 
-      colorize:    true
-    }),
-    
-    new winston.transports.File({
-      filename:  '../server.log',
-      timestamp: true,  
-      json:      false
-    })
+module.exports = function(filename){
 
-  ]
-});
-
-module.exports = logger;
+  filename = filename || '../app.log'; 
+  
+  var logger = new (winston.Logger)({
+    transports: [
+      
+      new winston.transports.Console({
+        prettyPrint: true, 
+        colorize:    true
+      }),
+      
+      new winston.transports.File({
+        filename:  filename,
+        timestamp: true,  
+        json:      false
+      })
+  
+    ]
+  });
+  
+  return logger;
+};
