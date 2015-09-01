@@ -6,10 +6,12 @@ var _ = require('lodash');
 
 function Buffer(){
   this.storage = [];
+  this.debug = null;
 }
 
 Buffer.prototype.add = function(value){
   this.storage.push(value);
+  if (typeof this.debug === 'function') this.debug(value);
   return this;
 }
 

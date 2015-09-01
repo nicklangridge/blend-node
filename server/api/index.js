@@ -56,7 +56,7 @@ var api = {
 
         return Promise.map(reviews, function eachReview(data){
           
-          return db.findOrCreateArtist(data.artis).then(function gotArtist(artist){  
+          return db.findOrCreateArtist(data.artist).then(function gotArtist(artist){  
             if (artist._isNew) {
               msgs.add(['+++ Added artist', artist.get('slug')]);
               counts.artists++;
