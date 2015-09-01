@@ -17,26 +17,23 @@ var api = {
     log.info('Starting import of all feeds');
     
     return db.Feed.findAll({active: 1})
-      .then(function gotFeeds(feeds) {
+      .then(function gotFeeds(feeds) {      
         return Promise.map(feeds.models, function eachFeed(feed) {
           return api.importFeed(feed.id);
-        })
-        
-        .then(function logResults(result){
-          var totals = result.reduce(function(a, b){
-            return {
-              artists: a.artists + b.artists,
-              albums:  a.albums  + b.albums,
-              reviews: a.reviews + b.reviews
-            };
-          });
-          
-          log.info(
-            'Finished import; created %s artists, %s albums, %s reviews',
-            totals.artists, totals.albums, totals.reviews
-          );
-          
         });
+      })
+      .then(function logResults(result){
+        var totals = result.reduce(function sum(a, b){
+          return {
+            artists: a.artists + b.artists,
+            albums:  a.albums  + b.albums,
+            reviews: a.reviews + b.reviews
+          };
+        });
+        log.info(
+          'Finished import; created %s artists, %s albums, %s reviews',
+          totals.artists, totals.albums, totals.reviews
+        );
       });
   },
   
@@ -59,35 +56,32 @@ var api = {
 
         return Promise.map(reviews, function eachReview(data){
           
-          return db.findOrCreateArtist(data.artist)
-            .then(function gotArtist(artist){  
-              if (artist._isNew) {
-                msgs.add(['+++ Added artist', artist.get('slug')]);
-                counts.artists++;
+          return db.findOrCreateArtist(data.artis).then(function gotArtist(artist){  
+            if (artist._isNew) {
+              msgs.add(['+++ Added artist', artist.get('slug')]);
+              counts.artists++;
+            }
+          
+            return db.findOrCreateAlbum(data.album, artist.id).then(function gotAlbum(album){
+              if (album._isNew) {
+                msgs.add([
+                  '+++ Added album %s by %s', 
+                  album.get('slug'), artist.get('slug')
+                ]);
+                counts.albums++;
               }
-            
-              return db.findOrCreateAlbum(data.album, artist.id)
-                .then(function gotAlbum(album){
-                  if (album._isNew) {
-                    msgs.add([
-                      '+++ Added album %s by %s', 
-                      album.get('slug'), artist.get('slug')
-                    ]);
-                    counts.albums++;
-                  }
-                  
-                  return db.findOrCreateReview(data.url, data.content, album.id, feedId)
-                    .then(function gotReview(review){
-                      if (review._isNew) {
-                        msgs.add([
-                          '+++ Added review %s of %s by %s', 
-                          review.get('url'), album.get('slug'), artist.get('slug')
-                        ]);  
-                        counts.reviews++;
-                      }
-                    });
-                });
-            });          
+                
+              return db.findOrCreateReview(data.url, data.content, album.id, feedId).then(function gotReview(review){
+                if (review._isNew) {
+                  msgs.add([
+                    '+++ Added review %s of %s by %s', 
+                    review.get('url'), album.get('slug'), artist.get('slug')
+                  ]);  
+                  counts.reviews++;
+                }
+              });
+            });
+          });          
         });
       })
       .then(function logCounts(){
