@@ -21,6 +21,7 @@ var api = {
         return Promise.map(feeds.models, function eachFeed(feed) {
           return api.importFeed(feed.id);
         })
+        
         .then(function logResults(result){
           var totals = result.reduce(function(a, b){
             return {
@@ -28,11 +29,13 @@ var api = {
               albums:  a.albums  + b.albums,
               reviews: a.reviews + b.reviews
             };
-          }); 
+          });
+          
           log.info(
             'Finished import; created %s artists, %s albums, %s reviews',
             totals.artists, totals.albums, totals.reviews
           );
+          
         });
       });
   },
