@@ -5,6 +5,7 @@
   "main": "app.js",
   "author": "Nick",
   "dependencies": {
+    "blue-tape": "^0.1.10",
     "bluebird": "^2.3.11",
     "bookshelf": "^0.7.9",
     "cheerio": "^0.18.0",

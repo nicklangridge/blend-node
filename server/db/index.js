@@ -38,8 +38,9 @@ db = _.extend(db, {
   
   done: function() {
     return knex.destroy(); // shutdown knex pooling and disconnect
-  }
+  },
   
+  knex: knex
 });
 
 module.exports = db;

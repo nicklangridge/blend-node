@@ -20,10 +20,10 @@ module.exports = {
     }
   },
 
-  staging: {
+  test: {
     client: 'mysql',
     connection: {
-      database: 'blend',
+      database: 'blend_test',
       user:     'blend',
       password: 'blend'
     },
