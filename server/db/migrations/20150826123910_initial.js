@@ -69,12 +69,12 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return Promise.all([
+  return Promise.join(
     knex.schema.dropTable('album'),
     knex.schema.dropTable('album_region'),
     knex.schema.dropTable('review'),
     knex.schema.dropTable('album_tag'),
     knex.schema.dropTable('artist'),
     knex.schema.dropTable('feed')
-  ]);
+  );
 };

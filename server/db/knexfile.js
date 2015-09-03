@@ -2,6 +2,8 @@
 
 "use strict";
 
+var config  = require('../config');
+
 module.exports = {
 
   development: {
@@ -16,7 +18,11 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: 'knex_migrations',
+      directory: config.rootPath + '/db/migrations'
+    },
+    seeds: {
+      directory: config.rootPath + '/db/seeds'
     }
   },
 
@@ -32,23 +38,11 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  },
-
-  production: {
-    client: 'mysql',
-    connection: {
-      database: 'blend',
-      user:     'blend',
-      password: 'blend'
+      tableName: 'knex_migrations',
+      directory: config.rootPath + '/db/migrations'
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
+    seeds: {
+      directory: config.rootPath + '/db/seeds'
     }
   }
 
