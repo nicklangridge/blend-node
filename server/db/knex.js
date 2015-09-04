@@ -2,8 +2,8 @@
 
 "use strict";
 
-var config     = require('../config');
-var knexConfig = require('./knexfile'); 
-var knex       = require('knex')(knexConfig[config.environment]);
+var config     = require('../config'),
+    knexConfig = require('./knexfile'), 
+    knex       = require('knex')(knexConfig[config.environment]);
 
 module.exports = knex;
