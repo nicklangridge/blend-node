@@ -42,7 +42,7 @@ module.exports = {
       directory: config.rootPath + '/db/migrations'
     },
     seeds: {
-      directory: config.rootPath + '/db/seeds'
+      directory: config.rootPath + '/db/seeds_test'
     }
   }
 

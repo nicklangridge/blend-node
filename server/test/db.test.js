@@ -26,14 +26,14 @@ function dbTest(name, func){
 
 dbTest('findById', function findById(t){
   return db.Feed.findById(2).then(function(feed){
-    t.equal(feed.get('slug'), 'clash', 'fetches expected model');
+    t.equal(feed.get('slug'), 'tapefear', 'fetches expected model');
   });  
 });
 
 dbTest('findAll', function findAll(t){
   return db.Feed.findAll().then(function(feeds){
-    t.equal(feeds.size(), 5, 'fetches 5 models');
-    'audiocred clash hippopotamusic tapefear pitchfork'.split(' ').forEach(function(slug){
+    t.equal(feeds.size(), 3, 'fetches 5 models');
+    'clash tapefear pitchfork'.split(' ').forEach(function(slug){
       t.ok(feeds.where({slug: slug}).length === 1, 'got ' + slug);
     });
   });
@@ -52,7 +52,7 @@ dbTest('findOrCreate', function findOrCreate(t){
   }
   function checkCount(){
     return db.Feed.query().count('id AS count').then(function(total){
-      t.equal(total[0].count, 6, 'count is expected');
+      t.equal(total[0].count, 4, 'count is correct');
     });
   }
   function checkFind(){
