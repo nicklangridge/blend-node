@@ -5,6 +5,7 @@ process.env.NODE_ENV = 'test';
 var Promise = require('bluebird'),
     test    = require('blue-tape'),
     db      = require('../db'),
+    series  = require('../utils/promiseSeries'),
     after   = test;
 
 function setup(){
@@ -17,7 +18,8 @@ function teardown(){
 
 function dbTest(name, func){
   test(name, function wrapper(t){
-    return setup().then(function runTest(){ return func(t) }).then(teardown);
+    function run(){ return func(t) }
+    return series(setup, run, teardown);
   });
 }
 
@@ -40,34 +42,28 @@ dbTest('findAll', function findAll(t){
 dbTest('findOrCreate', function findOrCreate(t){
   var testName = 'Some feed',
       testSlug = 'some-feed';
-      
-  return Promise.resolve()
-    .then(function checkCreate(){
-      return db.Feed.forge({name: testName}).findOrCreate().then(function(feed){
-        t.equal(feed.get('name'), testName, 'got feed of expected name');
-        t.equal(feed.get('slug'), testSlug, 'expected slug was generated');
-        t.ok(feed._isNew, 'feed is marked as new');
-      });
-    })
-    .then(function checkCount(){
-      return db.Feed.query().count('id AS count').then(function(total){
-        t.equal(total[0].count, 6, 'count confirms 1 feed created');
-      });
-    })
-    .then(function checkFind(){
-      return db.Feed.forge({name: testName}).findOrCreate().then(function(feed){
-        t.equal(feed.get('name'), testName, 'got feed of expected name');
-        t.ok(!feed._isNew, 'feed is not marked as new');
-      });
-    })
-    .then(function checkCount(){
-      return db.Feed.query().count('id AS count').then(function(total){
-        t.equal(total[0].count, 6, 'count confirms no new feed created');
-      });
+  
+  function checkCreate(){
+    return db.Feed.forge({name: testName}).findOrCreate().then(function(feed){
+      t.equal(feed.get('name'), testName, 'got feed of expected name');
+      t.equal(feed.get('slug'), testSlug, 'expected slug was generated');
+      t.ok(feed._isNew, 'feed is marked as new');
     });
+  }
+  function checkCount(){
+    return db.Feed.query().count('id AS count').then(function(total){
+      t.equal(total[0].count, 6, 'count is expected');
+    });
+  }
+  function checkFind(){
+    return db.Feed.forge({name: testName}).findOrCreate().then(function(feed){
+      t.equal(feed.get('name'), testName, 'got feed of expected name');
+      t.ok(!feed._isNew, 'feed is not marked as new');
+    });
+  }    
+  
+  return series(checkCreate, checkCount, checkFind, checkCount);
 });
-
-
 
 after('done', function done(t){
   return db.done();
