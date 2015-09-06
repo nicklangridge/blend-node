@@ -62,7 +62,7 @@ var api = {
               counts.artists++;
             }
           
-            return db.findOrCreateAlbum(data.album, artist.id).then(function gotAlbum(album){
+            return db.findOrCreateAlbum(artist.id, data.album).then(function gotAlbum(album){
               if (album._isNew) {
                 msgs.add([
                   '+++ Added album %s by %s', 
@@ -71,7 +71,7 @@ var api = {
                 counts.albums++;
               }
                 
-              return db.findOrCreateReview(data.url, data.content, album.id, feedId).then(function gotReview(review){
+              return db.findOrCreateReview(album.id, feedId, data.url, data.content).then(function gotReview(review){
                 if (review._isNew) {
                   msgs.add([
                     '+++ Added review %s of %s by %s', 

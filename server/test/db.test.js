@@ -65,6 +65,33 @@ dbTest('findOrCreate', function findOrCreate(t){
   return series(checkCreate, checkCount, checkFind, checkCount);
 });
 
+dbTest('findOrCreateReview', function findOrCreate(t){
+  var testAlbumId = 1, 
+      testFeedId  = 2, 
+      testUrl     = 'http://example.com';
+    
+  function checkCreate(){    
+    return db.findOrCreateReview(testAlbumId, testFeedId, testUrl, 'example text').then(function(review){
+      t.equal(review.get('url'), testUrl, 'got review with expected url');
+      t.ok(review._isNew, 'review is marked as new');
+    });
+  }
+  function checkCount(){
+    return db.Review.query().count('id AS count').then(function(total){
+      t.equal(total[0].count, 2, 'count is correct');
+    });
+  }
+  function checkFind(){
+    return db.findOrCreateReview(testAlbumId, testFeedId, testUrl, 'example text2').then(function(review){
+      t.equal(review.get('text'), 'example text2', 'review text was updated');
+      t.ok(!review._isNew, 'review is not marked new');
+    });
+  }    
+  
+  return series(checkCreate, checkCount, checkFind, checkCount);
+});
+
+
 after('done', function done(t){
   return db.done();
 });

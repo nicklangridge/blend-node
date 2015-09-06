@@ -22,11 +22,11 @@ db = _.extend(db, {
     return db.Artist.forge({name: name}).findOrCreate();
   },
   
-  findOrCreateAlbum: function(name, artist_id) {
-    return db.Album.forge({name: name, artist_id: artist_id}).findOrCreate();
+  findOrCreateAlbum: function(artist_id, name) {
+    return db.Album.forge({artist_id: artist_id, name: name}).findOrCreate();
   },
   
-  findOrCreateReview: function(url, text, album_id, feed_id) {
+  findOrCreateReview: function(album_id, feed_id, url, text) {
     return db.Review.forge({album_id: album_id, feed_id: feed_id})
       .findOrCreate()
       .then(function(review){
